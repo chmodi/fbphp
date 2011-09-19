@@ -1,0 +1,11 @@
+Summary
+App ID/API Key
+226699594032662
+App Secret
+8019e8798747b6fa66da39286fb7fc2d
+Site URL
+http://localhost/facebook/
+Contact Email
+charul.modi@gmail.com
+Support Email
+charul.modi@gmail.com
