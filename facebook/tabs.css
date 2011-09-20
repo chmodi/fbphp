@@ -1,7 +1,9 @@
 *									{ margin: 0; padding: 0; }
 body								{ font: 14px Helvetica, Sans-Serif; }
 
-#page-wrap							{ width: 700px; margin: 25px auto; }
+#page-wrap							{ width: 450px; margin: 25px auto; height:250px;
+										background-color:#FFFFFF;										
+										}
 
 
 .ui-tabs 							{ zoom: 1; }
@@ -21,13 +23,49 @@ li.ui-state-processing a 			{ cursor: text; }
 .ui-tabs.ui-tabs-collapsible 
 .ui-tabs-nav li.ui-tabs-selected a  { cursor: pointer; } /* first selector in group seems obsolete, but required to overcome bug in Opera applying cursor: text overall if defined elsewhere... */
 .ui-tabs .ui-tabs-panel 			{ padding: 20px; display: block; border-width: 0; background: none; 
-									  border: 1px solid #ccc; position: relative; min-height: 100px; }
+									  border: 1px solid #ccc; position: relative; min-height: 150px; }
 .ui-tabs .ui-tabs-hide 				{ display: none !important; }
 
 
 
 
-a.mover 							{ background: #900; padding: 6px 12px; position: absolute;
+a.mover 							{ background: #3B5998; padding: 6px 12px; position: absolute;
 								      color: white; font-weight: bold; text-decoration: none; }
 .next-tab 							{ bottom: 0; right: 0; -moz-border-radius-topleft: 10px; -webkit-border-top-left-radius: 10px; }
 .prev-tab 							{ bottom: 0; left: 0; -moz-border-radius-topright: 10px; -webkit-border-top-right-radius: 10px; }
+
+
+
+.fb_button, .fb_button_rtl {
+background: #29447E url(http://static.ak.fbcdn.net/rsrc.php/v1/yL/r/FGFbc80dUKj.png);
+background-repeat: no-repeat;
+cursor: pointer;
+display: inline-block;
+padding: 0 0 0 1px;
+text-decoration: none;
+outline: none;
+}
+
+.fb_button_medium, .fb_button_medium_rtl {
+background-position: left -188px;
+font-size: 11px;
+line-height: 14px;
+}
+
+a.fb_button, a.fb_button_rtl, .fb_button, .fb_button_rtl {
+text-decoration: none;
+}
+
+.fb_button .fb_button_text, .fb_button_rtl .fb_button_text {
+background: #5F78AB url(http://static.ak.fbcdn.net/rsrc.php/v1/yL/r/FGFbc80dUKj.png);
+border-top: solid 1px #879AC0;
+border-bottom: solid 1px #1A356E;
+color: white;
+display: block;
+font-family: "lucida grande",tahoma,verdana,arial,sans-serif;
+font-weight: bold;
+padding: 2px 6px 3px 6px;
+margin: 1px 1px 0 21px;
+text-shadow: none;
+}
+p{font-family: Verdana;}

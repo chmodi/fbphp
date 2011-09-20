@@ -29,9 +29,13 @@ if ($user) {
 // Login or logout url will be needed depending on current user state.
 if ($user) {
   $logoutUrl = $facebook->getLogoutUrl();
-} else {
-  $loginUrl = $facebook->getLoginUrl();
+} else {  
+  $params['scope'] = 'friends_hometown,friends_location';	
+  $loginUrl = $facebook->getLoginUrl($params);
+  
 }
+//if (!$user)
+//session_destroy();
 ?>
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
@@ -56,14 +60,13 @@ if ($user) {
 			  var totalSize = $(".ui-tabs-panel").size() - 1;
 				
 			  if (i != totalSize) {
-			      next = i + 2;
-				  //alert("<a href='#' class='next-tab mover' rel='" + next + "'>Next Page &#187;</a>");
-		   		  $(this).append("<a href='#' class='next-tab mover' rel='" + next + "'>Next Page &#187;</a>");
+			      next = i + 2;				  
+		   		  $(this).append("<a href='#' class='next-tab mover' rel='" + next + "'>Next &#187;</a>");
 			  }
 	  
 			  if (i != 0) {
 			      prev = i;
-		   		  $(this).append("<a href='#' class='prev-tab mover' rel='" + prev + "'>&#171; Prev Page</a>");
+		   		  $(this).append("<a href='#' class='prev-tab mover' rel='" + prev + "'>&#171; Prev</a>");
 			  }
    		
 			});
@@ -94,9 +97,11 @@ if ($user) {
 
 #inner {
     width: 50%;
-    margin: auto;
+	haight: 50%;
+    margin: 0 auto;
+    overflow: hidden;
 	text-align: center;
-	align: center
+	align: center;
 }
 </style>
 
@@ -109,26 +114,26 @@ if ($user) {
 		<div id="tabs">
 		
 	<?php if (isset($user_profile)): ?>
-       You have been successfully logged in. [<a href="<?php echo $logoutUrl; ?>">Logout</a>]
-	   <h1>Friends</h1>
-		
-
-		<?php
+       [<a href="<?php echo $logoutUrl; ?>">Logout</a>]
+	   <?php
 		try{
 			if (!isset($_SESSION['friend_list']))
 			{
-				$fql    =   "select name,username,pic_square,uid from user where uid in (select uid1 from friend where uid2=" . $user.")";
+				$fql    =   "select name,username,pic_small,uid,hometown_location,current_location from user where uid in (select uid1 from friend where uid2=" . $user.")";
 				$param  =   array(
 					'method'    => 'fql.query',
 					'query'     => $fql,
 					'callback'  => ''
 				);
 				$friend_list   =   $facebook->api($param);
+				/*echo '<pre>';
+print_r($friend_list);
+exit;				*/
 				$_SESSION['friend_list'] = $friend_list;
 			}	
         }
         catch(Exception $o){
-            d($o);
+            echo $o->getMessage();
         }
 		$i=1;		
 		if(isset($_SESSION['friend_list'])) {
@@ -149,18 +154,26 @@ if ($user) {
 		<div id="fragment-1" class="ui-tabs-panel">
 			<div id="inner">
 				<a href="https://www.facebook.com/profile.php?id=<?php echo $friendList[$i]['uid']; ?>" target="_blank">
-					<img src="<?php echo $friendList[$i]['pic_square']; ?>" title="<?php echo $friendList[$i]['name']; ?>">
+					<img src="<?php echo $friendList[$i]['pic_small']; ?>" title="<?php echo $friendList[$i]['name']; ?>">
 				</a>		
-				<?php echo $friendList[$i]['name'];?>  
+				<?php echo $friendList[$i]['name'];
+					  echo $friendList[$i]['hometown_location']['city'];
+					  echo $friendList[$i]['current_location']['city'];?>
+					  
 			</div>		
         </div>
 		<?php }else { ?>		
         <div id="fragment-<?php echo $i; ?>" class="ui-tabs-panel ui-tabs-hide">
-        	    <div id="inner">
+        	 <div id="inner">
 				<a href="https://www.facebook.com/profile.php?id=<?php echo $friendList[$i]['uid']; ?>" target="_blank">
-					<img src="<?php echo $friendList[$i]['pic_square']; ?>" title="<?php echo $friendList[$i]['name']; ?>">
+					<img src="<?php echo $friendList[$i]['pic_small']; ?>" title="<?php echo $friendList[$i]['name']; ?>">
 				</a>		
-				<?php echo $friendList[$i]['name'];?>  
+				<p><?php echo $friendList[$i]['name'];
+					if (isset($friendList[$i]['hometown_location']['city']))
+					  echo '<br>Hometown:'.$friendList[$i]['hometown_location']['city'];
+					if (isset($friendList[$i]['current_location']['city']))  
+					  echo '<br>Current city:'.$friendList[$i]['current_location']['city'];?>
+				</p>
 			</div>	    
         </div>	
 		<?php } ?>
@@ -171,7 +184,7 @@ if ($user) {
 	</div>
 	<?php else: ?>
     <div>
-        <a href="<?php echo $loginUrl; ?>">Login with Facebook</a>
+        <a class="fb_button fb_button_medium" href="<?php echo $loginUrl; ?>"><span class="fb_button_text">Log In</span></a>
       </div>
     <?php endif; ?>
 </body>

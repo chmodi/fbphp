@@ -483,15 +483,16 @@ abstract class BaseFacebook
     if ($scopeParams && is_array($scopeParams)) {
       $params['scope'] = implode(',', $scopeParams);
     }
-
+	
     return $this->getUrl(
       'www',
       'dialog/oauth',
       array_merge(array(
                     'client_id' => $this->getAppId(),
                     'redirect_uri' => $currentUrl, // possibly overwritten
-                    'state' => $this->state),
+                    'state' => $this->state),					
                   $params));
+				  
   }
 
   /**
@@ -512,7 +513,7 @@ abstract class BaseFacebook
         'access_token' => $this->getAccessToken(),
       ), $params)
     );
-  }
+	}
 
   /**
    * Get a login status URL to fetch the status from Facebook.
